@@ -56,7 +56,6 @@
                     </form>
                   </td>
                   <td>{{ $value->category_name }}</td>
-                  <!-- <td>{{ $value->name }}</td> -->
                   <td>{{ $value->name }}</td>
                   <td class="text-center">
                     <a href="{{ asset('images') }}/{{ $value->thumbnail }}" target="_blank" rel="noopener noreferrer">
