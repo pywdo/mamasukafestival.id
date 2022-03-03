@@ -39,7 +39,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:category',
+            'name' => 'required|unique:event',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'content' => 'required',
         ], config('global.validator'));
@@ -78,7 +78,8 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        $pageName = 'Event';
+        return view('admin.event.edit', compact('event', 'pageName'));
     }
 
     /**
@@ -90,7 +91,24 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:event,name,' . $event->id,
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'content' => 'required',
+        ], config('global.validator'));
+
+        $imageName = time() . '.' . $request->thumbnail->extension();
+
+        $request->thumbnail->move(public_path('images'), $imageName);
+
+        $event->update([
+            'name' => $request->name,
+            'thumbnail' => $imageName,
+            'content' => $request->content,
+        ]);
+
+        return redirect()->route('admin.event')
+            ->with('success', 'Event berhasil diedit.');
     }
 
     /**

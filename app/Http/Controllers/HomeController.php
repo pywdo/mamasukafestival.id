@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Courses;
+use App\Models\CoursesSegment;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -44,5 +45,15 @@ class HomeController extends Controller
     {
         $data = Event::find($id);
         return view('home.event.detail', compact('data'));
+    }
+
+    public function coursesDetail($id)
+    {
+        $data = Courses::find($id);
+        $segments = CoursesSegment::where('courses_id', $id)->orderBy('ordering', 'asc')->get();
+
+        $isPurchased = false;
+
+        return view('home.courses.detail', compact('data', 'segments', 'isPurchased'));
     }
 }

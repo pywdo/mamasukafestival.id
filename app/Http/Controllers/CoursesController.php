@@ -48,7 +48,7 @@ class CoursesController extends Controller
     {
         $request->validate([
             'category' => 'required|not_in:"Pilih Kategori"',
-            'name' => 'required|unique:category',
+            'name' => 'required|unique:courses',
             'price' => 'required',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
@@ -125,7 +125,7 @@ class CoursesController extends Controller
     {
         $request->validate([
             'category' => 'required|not_in:"Pilih Kategori"',
-            'name' => 'required|unique:category',
+            'name' => 'required|unique:courses',
             'price' => 'required',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
