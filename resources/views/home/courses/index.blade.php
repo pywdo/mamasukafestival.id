@@ -2,12 +2,47 @@
 
 @section('content')
 <div class="header py-2 py-lg-2">
-  <div class="container-fluid">
+  <div class="container">
+
+    @if(!empty($event) and !$isSearch)
+    <div class="row mt-2">
+      <div class="col-lg-12 center">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            @foreach($event as $i => $e)
+            <li data-target="#carouselExampleIndicators" data-slide-to="{{$i}}" class="@if($i == 0) active @endif"></li>
+            @endforeach
+          </ol>
+          <div class="carousel-inner">
+            @foreach($event as $i => $e)
+
+            <a href="{{ route('home.event.detail', $e->id) }}" class="carousel-item @if($i == 0) active @endif">
+              <img class="d-block w-100 rounded" src="{{ asset('images') }}/{{ $e->thumbnail }}" height="450" style="object-fit: cover;">
+              <div class="carousel-caption d-none d-md-block">
+                <h2 class="text-white">{{$e->name}}</h2>
+                <p>{{Str::limit($e->content, 100, $end='.......')}}</p>
+              </div>
+            </a>
+
+            @endforeach
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    @endif
 
     <div class="row mt-5">
 
       @if(!empty($category))
-      <div class="col-md-2">
+      <div class="col-md-3">
         <div class="row">
           <div class="col-md-12">
             <h1 class="text-dark">Kategori</h1>
@@ -32,15 +67,17 @@
       </div>
       @endif
 
-      <div class="col-md-10">
+      <div class="col-md-9">
         <div class="row">
           <div class="col-md-12">
             <h1 class="text-dark text-capitalize">{{$pageName}}</h1>
           </div>
           @foreach($data as $i => $value)
-          <div class="col-md-3 mb-4">
+          <div class="col-md-4 mb-4">
             <div class="card card-stats mb-4 mb-xl-0">
-              <img class="card-img-top" src="{{ asset('images') }}/{{ $value->thumbnail }}" height="150px" style="object-fit: cover;">
+              <a href="{{ route('home.courses.detail', $value->id) }}">
+                <img class="card-img-top" src="{{ asset('images') }}/{{ $value->thumbnail }}" height="150px" style="object-fit: cover;">
+              </a>
               <div class="card-body">
                 <h4 class="card-title">{{$value->name}}</h4>
                 <h3><strong> Rp. {{ number_format($value->price, 2) }}</strong></h3>

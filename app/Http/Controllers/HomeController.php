@@ -32,16 +32,20 @@ class HomeController extends Controller
         $data = Courses::query();
 
         $pageName = 'Kursus Terbaru';
+        $isSearch = false;
         if (request('search')) {
             $data->where('name', 'Like', '%' . request('search') . '%');
             $pageName = request('search');
+            $isSearch = true;
         }
 
         $data = $data->orderBy('created_at', 'desc')->get();
 
         $category = Category::orderby('name', 'asc')->get();
 
-        return view('home.courses.index', compact('data', 'pageName', 'category'));
+        $event = Event::limit(5)->get();
+
+        return view('home.courses.index', compact('data', 'pageName', 'isSearch', 'category', 'event'));
     }
 
     public function categoryDetail($id)
