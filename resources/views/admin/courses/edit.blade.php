@@ -15,8 +15,9 @@
         </div>
         <div class="card-body">
 
-          <form method="POST" action="{{ route('admin.courses.store') }}" enctype="multipart/form-data" novalidate>
+          <form method="POST" action="{{ route('admin.courses.update', $course->id) }}" enctype="multipart/form-data" novalidate>
             @csrf
+            @method('PUT')
 
             <div class="row">
               <div class="col-md-6">
@@ -24,7 +25,7 @@
                 <select class="form-control @error('category') is-invalid @enderror" name="category" id="category">
                   <option selected>Pilih Kategori</option>
                   @foreach ($category as $key => $value)
-                  <option value="{{ $value->id }}" @if($value->id == old('category')) selected @endif>{{ $value->name }}</option>
+                  <option value="{{ $value->id }}" @if($value->id == old('category') or $value->id == $course->category_id) selected @endif>{{ $value->name }}</option>
                   @endforeach
                 </select>
 
@@ -37,7 +38,7 @@
 
               <div class="col-md-6">
                 <label class="form-control-label" for="name">Nama Kursus</label>
-                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required placeholder="Nama Kursus">
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') ?? $course->name }}" required placeholder="Nama Kursus">
 
                 @error('name')
                 <span class="invalid-feedback" role="alert">
@@ -50,7 +51,7 @@
             <div class="row mt-3">
               <div class="col-md-6">
                 <label class="form-control-label" for="price">Harga Kursus</label>
-                <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" placeholder="Harga Kursus">
+                <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') ?? $course->price }}" placeholder="Harga Kursus">
 
                 @error('price')
                 <span class="invalid-feedback" role="alert">
@@ -61,7 +62,7 @@
 
               <div class="col-md-6">
                 <label class="form-control-label" for="thumbnail">Thumbnail</label>
-                <input id="thumbnail" type="file" class="form-control @error('thumbnail') is-invalid @enderror" name="thumbnail" value="{{old('thumbnail')}}">
+                <input id="thumbnail" type="file" class="form-control @error('thumbnail') is-invalid @enderror" name="thumbnail">
 
                 @error('thumbnail')
                 <span class="invalid-feedback" role="alert">
@@ -74,7 +75,7 @@
             <div class="row mt-3">
               <div class="col-md-12">
                 <label class="form-control-label" for="description">Deskripsi</label>
-                <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="3" placeholder="Deskripsi">{{ old('description') }}</textarea>
+                <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="3" placeholder="Deskripsi">{{ old('description') ?? $course->description }}</textarea>
 
                 @error('description')
                 <span class="invalid-feedback" role="alert">
@@ -136,16 +137,31 @@
               @endforeach
 
               @else
-              <div class="row mt-2">
+
+              @foreach ($segments as $i => $seg)
+              <div class="row mt-2" id="segment_{{$i}}">
                 <div class="col-md-4">
-                  <label class="form-control-label" for="title">Judul</label>
-                  <input id="title" type="text" class="form-control" name="segment[0][title]" placeholder="Judul">
+                  @if($i == 0)
+                  <label class="form-control-label">Judul</label>
+                  @endif
+                  <input type="text" class="form-control" name="segment[{{$i}}][title]" placeholder="Judul" value="{{$seg->name}}">
                 </div>
                 <div class="col-md-6">
+                  @if($i == 0)
                   <label class="form-control-label">Embed</label>
-                  <textarea class="form-control @error('description') is-invalid @enderror" name="segment[0][embed]" rows="3" placeholder="Embed"></textarea>
+                  @endif
+                  <textarea class="form-control @error('description') is-invalid @enderror" name="segment[{{$i}}][embed]" rows="3" placeholder="Embed">{{$seg->embed}}</textarea>
                 </div>
+                @if($i > 0)
+                <div class="col-md-2">
+                  <button type="button" onclick="removeSegment('{{$i}}')" class="btn btn-danger">
+                    Hapus
+                  </button>
+                </div>
+                @endif
               </div>
+              @endforeach
+
               @endif
 
             </div>
@@ -178,7 +194,7 @@
 
 @push('js')
 <script type="text/javascript">
-  var i = `@if(old('segment')) {{count(old('segment'))-1}} @else 0 @endif`;
+  var i = `@if(old('segment')) {{count(old('segment'))-1}} @else {{count($segments)-1}} @endif`;
 
   console.log(i)
 

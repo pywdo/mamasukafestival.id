@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +18,14 @@ use App\Http\Controllers\CoursesController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('/');
+Route::get('/', [HomeController::class, 'index'])->name('/');
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('is_user');
+Route::get('/event', [HomeController::class, 'event'])->name('home.event');
+Route::get('/event/{id}', [HomeController::class, 'eventDetail'])->name('home.event.detail');
 
 Route::prefix('admin')->middleware(['is_admin'])->group(function () {
     Route::get('home', [HomeController::class, 'adminHome'])->name('admin.home');
@@ -56,6 +58,22 @@ Route::prefix('admin')->middleware(['is_admin'])->group(function () {
                 'edit' => 'admin.courses.edit',
                 'update' => 'admin.courses.update',
                 'destroy' => 'admin.courses.destroy',
+            ]
+        ]
+    );
+
+    Route::resource(
+        'event',
+        EventController::class,
+        [
+            'names' => [
+                'index' => 'admin.event',
+                'create' => 'admin.event.create',
+                'store' => 'admin.event.store',
+                'show' => 'admin.event.show',
+                'edit' => 'admin.event.edit',
+                'update' => 'admin.event.update',
+                'destroy' => 'admin.event.destroy',
             ]
         ]
     );
