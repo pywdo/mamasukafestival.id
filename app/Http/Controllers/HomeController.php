@@ -68,7 +68,7 @@ class HomeController extends Controller
     {
         $data = Courses::join('transaction', 'courses.id', '=', 'transaction.courses_id')
             ->where('transaction.user_id', Auth::id())
-            ->where('transaction.status', 1)->get();
+            ->where('transaction.status', 1)->get(['courses.*']);
         $pageName = 'Kursus Saya';
 
         return view('home.courses.index', compact('data', 'pageName'));
@@ -94,6 +94,7 @@ class HomeController extends Controller
     public function coursesDetail($id)
     {
         $data = Courses::find($id);
+
         $segments = CoursesSegment::where('courses_id', $id)->orderBy('ordering', 'asc')->get();
 
         $isPurchased = 0;
