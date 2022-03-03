@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,13 @@ use App\Http\Controllers\EventController;
 Route::get('/', [HomeController::class, 'index'])->name('/');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/courses/mine', [HomeController::class, 'mine'])->name('home.courses.mine')->middleware(['is_user']);
+Route::get('/courses/purchase/{i}', [TransactionController::class, 'create'])->name('home.transaction.create')->middleware(['is_user']);
+Route::post('/courses/purchase', [TransactionController::class, 'store'])->name('home.transaction.store')->middleware(['is_user']);
+
 Route::get('/courses/{i}', [HomeController::class, 'coursesDetail'])->name('home.courses.detail');
+Route::get('/category/{i}', [HomeController::class, 'categoryDetail'])->name('home.category.detail');
 
 Auth::routes();
 
@@ -30,6 +37,8 @@ Route::get('/event/{id}', [HomeController::class, 'eventDetail'])->name('home.ev
 
 Route::prefix('admin')->middleware(['is_admin'])->group(function () {
     Route::get('home', [HomeController::class, 'adminHome'])->name('admin.home');
+    Route::get('transaction', [TransactionController::class, 'index'])->name('admin.transaction');
+    Route::get('transaction/approval/{id}/{status}', [TransactionController::class, 'approval'])->name('admin.transaction.approval');
 
     Route::resource(
         'category',

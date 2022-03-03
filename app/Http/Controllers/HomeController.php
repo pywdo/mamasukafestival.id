@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Courses;
 use App\Models\CoursesSegment;
 use App\Models\Event;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -26,8 +29,45 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data = Courses::orderBy('created_at', 'desc')->get();
-        return view('home.courses.index', compact('data'));
+        $data = Courses::query();
+
+        $pageName = 'Kursus Terbaru';
+        if (request('search')) {
+            $data->where('name', 'Like', '%' . request('search') . '%');
+            $pageName = request('search');
+        }
+
+        $data = $data->orderBy('created_at', 'desc')->get();
+
+        $category = Category::orderby('name', 'asc')->get();
+
+        return view('home.courses.index', compact('data', 'pageName', 'category'));
+    }
+
+    public function categoryDetail($id)
+    {
+        $data = Courses::where('category_id', $id)
+            ->orderBy('created_at', 'desc')->get();
+        $category = Category::orderby('name', 'asc')->get();
+        $pageName = 'Kursus Terbaru';
+
+        foreach ($category as $c) {
+            if ($c->id == $id) {
+                $pageName = $c->name;
+            }
+        }
+
+        return view('home.courses.index', compact('data', 'pageName', 'category'));
+    }
+
+    public function mine()
+    {
+        $data = Courses::join('transaction', 'courses.id', '=', 'transaction.courses_id')
+            ->where('transaction.user_id', Auth::id())
+            ->where('transaction.status', 1)->get();
+        $pageName = 'Kursus Saya';
+
+        return view('home.courses.index', compact('data', 'pageName'));
     }
 
     public function adminHome()
@@ -52,7 +92,20 @@ class HomeController extends Controller
         $data = Courses::find($id);
         $segments = CoursesSegment::where('courses_id', $id)->orderBy('ordering', 'asc')->get();
 
-        $isPurchased = false;
+        $isPurchased = 0;
+
+        $transaction = Transaction::where('user_id', Auth::id())
+            ->where('courses_id', $id)
+            ->where('status', '!=', 2)
+            ->first();
+
+        if ($transaction) {
+            if ($transaction->status == 1) {
+                $isPurchased = 1;
+            } else if ($transaction->status == 0) {
+                $isPurchased = 99;
+            }
+        }
 
         return view('home.courses.detail', compact('data', 'segments', 'isPurchased'));
     }

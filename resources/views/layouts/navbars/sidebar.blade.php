@@ -32,6 +32,11 @@
                         <i class="ni ni-album-2 text-default"></i> Data Event
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.transaction') }}">
+                        <i class="ni ni-credit-card text-info"></i> Data Transaksi
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

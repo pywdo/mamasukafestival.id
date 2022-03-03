@@ -4,6 +4,15 @@
 
 <div class="container mt-5 mb-5">
 
+  @if(session('success'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{session('success')}}
+  </div>
+  @endif
+
   <div class="row mt-3">
     <div class="col-md-12">
       <div class="card">
@@ -13,15 +22,31 @@
               <h2 class="text-uppercase">{{ $data->name }}</h2>
               <h6>{{$data->created_at->format('j F, Y h:i')}}</h6>
             </div>
-            @if(!$isPurchased)
+            @auth
+            @if($isPurchased == 0 and auth()->user()->is_admin == 0)
+
             <div class=" col">
               <ul class="nav nav-pills justify-content-end">
                 <li class="nav-item">
-                  <a class="btn btn-info btn-md" href="{{ route('admin.event.create') }}">Beli Kursus</a>
+                  <a class="btn btn-info btn-md" href="{{ route('home.transaction.create', $data->id) }}">Beli Kursus</a>
                 </li>
               </ul>
             </div>
+
             @endif
+
+            @if($isPurchased == 99 and auth()->user()->is_admin == 0)
+
+            <div class=" col">
+              <ul class="nav nav-pills justify-content-end">
+                <li class="nav-item">
+                  <a class="btn btn-warning btn-md" href="#">Pending</a>
+                </li>
+              </ul>
+            </div>
+
+            @endif
+            @endauth
           </div>
         </div>
         <div class="card-body">
@@ -36,7 +61,7 @@
             {{$data->description}}
           </p>
 
-          @if($isPurchased)
+          @if($isPurchased == 1)
           <p>
             <hr class="my-4">
           <div class="accordion" id="accordionExample">

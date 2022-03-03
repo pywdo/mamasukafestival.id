@@ -31,10 +31,21 @@
     @endauth
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" id="navbar-main">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
+
+                <form action="{{ route('/') }}" method="GET" class="navbar-search navbar-search-light form-inline mr-3 d-none d-md-flex ml-lg-auto">
+                    <div class="form-group mb-0">
+                        <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Search" type="text" name="search">
+                        </div>
+                    </div>
+                </form>
 
                 <ul class="navbar-nav align-items-center d-none d-md-flex">
                     <li class="nav-item">
@@ -66,10 +77,13 @@
                             <div class=" dropdown-header noti-title">
                                 <h6 class="text-overflow m-0">{{ __('Welcome!') }}</h6>
                             </div>
-                            <a href="#" class="dropdown-item">
+
+                            @if(!auth()->user()->is_admin)
+                            <a href="{{ route('home.courses.mine') }}" class="dropdown-item">
                                 <i class="ni ni-support-16"></i>
-                                <span>{{ __('Support') }}</span>
+                                <span>Kursus Saya</span>
                             </a>
+                            @endif
 
                             @if(auth()->user()->is_admin)
                             <a href="{{ route('admin.home') }}" class="dropdown-item">

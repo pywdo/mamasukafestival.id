@@ -16,7 +16,7 @@
             <h4 class="card-title">{{$value->name}}</h4>
             <h6>{{$value->created_at->format('j F, Y h:i')}}</h6>
             <p class="card-text">{{Str::limit($value->content, 250, $end='.......')}}</p>
-            <a href="{{ route('home.event.detail', $value->id) }}" class="btn btn-primary">Lihat Detail</a>
+            <a href="{{ route('home.event.detail', $value->id) }}" class="btn btn-info">Lihat Detail</a>
           </div>
         </div>
       </div>
