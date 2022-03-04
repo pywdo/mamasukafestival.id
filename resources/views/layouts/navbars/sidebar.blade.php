@@ -6,7 +6,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand pt-0" href="{{ route('admin.home') }}">
-            {{ config('app.name', 'Laravel') }}
+            {{ config('app.name', 'Quantum') }}
         </a>
         <!-- Collapse -->
         <div class="collapse navbar-collapse" id="sidenav-collapse-main">
