@@ -43,7 +43,7 @@ class HomeController extends Controller
 
         $category = Category::orderby('name', 'asc')->get();
 
-        $event = Event::limit(5)->get();
+        $event = Event::orderby('created_at', 'desc')->limit(5)->get();
 
         return view('home.courses.index', compact('data', 'pageName', 'isSearch', 'category', 'event'));
     }
