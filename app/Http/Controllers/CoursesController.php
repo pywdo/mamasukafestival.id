@@ -7,6 +7,7 @@ use App\Models\Courses;
 use App\Models\CoursesSegment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class CoursesController extends Controller
 {
@@ -18,7 +19,18 @@ class CoursesController extends Controller
     public function index()
     {
         $data = Courses::join('category', 'courses.category_id', '=', 'category.id')
-            ->get(['courses.*', 'category.name as category_name']);
+            // ->leftJoin('transaction', 'courses.id', '=', 'transaction.courses_id')
+            ->leftJoin('transaction', function ($join) {
+                $join->on('courses.id', '=', 'transaction.courses_id');
+                $join->on('transaction.status', '=', DB::raw("1"));
+            })
+            ->groupBy('courses.id')
+            ->orderBy('total_user', 'desc')
+            ->get([
+                'courses.*',
+                'category.name as category_name',
+                DB::raw("count(transaction.id) as total_user")
+            ]);
 
         $pageName = 'Kursus';
 

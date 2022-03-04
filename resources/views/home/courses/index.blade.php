@@ -67,7 +67,7 @@
       </div>
       @endif
 
-      <div class="col-md-9">
+      <div class="@if(!empty($category)) col-md-9 @else col-md-12 @endif">
         <div class="row">
           <div class="col-md-12">
             <h1 class="text-dark text-capitalize">{{$pageName}}</h1>

@@ -41,6 +41,7 @@
                   <th scope="col" class="text-center">Thumbnail</th>
                   <th scope="col" class="text-center">Harga</th>
                   <th scope="col" class="text-center">Deskripsi</th>
+                  <th scope="col" class="text-center">Total User</th>
                 </tr>
               </thead>
               <tbody>
@@ -64,6 +65,7 @@
                   </td>
                   <td class="text-center">{{ $value->price }}</td>
                   <td>{{Str::limit($value->description, 20, $end='.......')}}</td>
+                  <td class="text-center">{{ $value->total_user }}</td>
                 </tr>
                 @endforeach
               </tbody>
