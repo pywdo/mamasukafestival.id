@@ -18,7 +18,7 @@ class TransactionController extends Controller
     {
         $data = Transaction::join('users', 'users.id', '=', 'transaction.user_id')
             ->join('courses', 'courses.id', '=', 'transaction.courses_id')
-            ->get(['transaction.*', 'users.name as user_name', 'courses.name as course_name', 'courses.price as course_price']);
+            ->get(['transaction.*', 'users.name as user_name', 'users.email as user_email', 'courses.name as course_name', 'courses.price as course_price']);
 
         $pageName = 'Transaksi';
         return view('admin.transaction.index', compact('data', 'pageName'));

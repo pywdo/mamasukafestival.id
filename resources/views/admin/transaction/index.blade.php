@@ -30,6 +30,7 @@
                   <th scope="col" class="text-center" style="width: 50px;">#</th>
                   <th scope="col" class="text-center" style="width: 100px;">#</th>
                   <th scope="col" class="text-center">Nama User</th>
+                  <th scope="col" class="text-center">Email User</th>
                   <th scope="col" class="text-center">Nama Kursus</th>
                   <th scope="col" class="text-center">Harga Kursus</th>
                   <th scope="col" class="text-center">Bukti</th>
@@ -50,6 +51,7 @@
                     @endif
                   </td>
                   <td>{{ $value->user_name }}</td>
+                  <td>{{ $value->user_email }}</td>
                   <td class="text-center">{{ $value->course_name }}</td>
                   <td class="text-right">Rp. {{ number_format($value->course_price, 2) }}</td>
                   <td class="text-center">
