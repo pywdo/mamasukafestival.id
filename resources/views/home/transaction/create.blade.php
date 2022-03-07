@@ -8,7 +8,7 @@
         <div class="card-header">
           <div class="row align-items-center">
             <div class="col">
-              <h6 class="text-uppercase ls-1 mb-1">Beli Kursus</h6>
+              <span><h5 class="text-uppercase ls-1 mb-1">Beli Kursus</h5></span>
               <h2 class="text-uppercase">{{ $pageName }}</h2>
             </div>
           </div>
@@ -17,6 +17,30 @@
 
           <form method="POST" action="{{ route('home.transaction.store') }}" enctype="multipart/form-data" novalidate>
             @csrf
+            <div class="row mb-3">
+              <label for="name" class="col-md-4 col-form-label text-md-end">Bank</label>
+
+              <div class="col-md-6">
+                <input type="text" class="form-control" value="Bank Central Asia" readonly>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="name" class="col-md-4 col-form-label text-md-end">Nomer Rekening</label>
+
+              <div class="col-md-6">
+                <input type="text" class="form-control" value="123456789" readonly>
+              </div>
+            </div>
+
+
+            <div class="row mb-3">
+              <label for="name" class="col-md-4 col-form-label text-md-end">Nama Rekening</label>
+
+              <div class="col-md-6">
+                <input type="text" class="form-control" value="QUANTUM ACADEMY" readonly>
+              </div>
+            </div>
 
             <div class="row mb-3">
               <label for="name" class="col-md-4 col-form-label text-md-end">Nama Kursus</label>

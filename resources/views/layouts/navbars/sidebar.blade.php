@@ -6,7 +6,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand pt-0" href="{{ route('admin.home') }}">
-            {{ config('app.name', 'Quantum') }}
+         <img src="{{ asset('images/LOGOQA.PNG') }}" width="60%"></a>
         </a>
         <!-- Collapse -->
         <div class="collapse navbar-collapse" id="sidenav-collapse-main">

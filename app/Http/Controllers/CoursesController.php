@@ -137,13 +137,15 @@ class CoursesController extends Controller
     {
         $request->validate([
             'category' => 'required|not_in:"Pilih Kategori"',
-            'name' => 'required|unique:courses',
+            'name' => 'required',
             'price' => 'required',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
             'segment.*.title' => 'required',
             'segment.*.embed' => 'required',
         ], config('global.validator'));
+
+
 
         $imageName = time() . '.' . $request->thumbnail->extension();
 

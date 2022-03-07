@@ -3,9 +3,13 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center mt-5">
-        <div class="col-md-8">
+        
+       
+        <div class="col-md-4">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">
+                <b>Sign In to Quantum Academy</b>
+                </div>
 
                 <div class="card-body">
 
@@ -21,26 +25,42 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+
+
+
+                        
+
+                        <div class="row mb-1">
+                            <div class="col-md">
+                                  <div class="form-group">
+                                  <div class="input-group">
+                                     <div class="input-group-prepend">
+                                     <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                     </div>
+                                      <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="{{ __('Email Address') }}" required autocomplete="email" autofocus>
+                                    </div>
+                                    </div>
+                             </div>
+                        </div>
+                        
+                         <div class="row mb-1">
+                            <div class="col-md">
+                                  <div class="form-group">
+                                  <div class="input-group">
+                                     <div class="input-group-prepend">
+                                     <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                     </div>
+                                <input id="password" type="password" class="form-control" name="password" placeholder="{{ __('Password') }}" required autocomplete="current-password">
+                           </div>
                             </div>
+                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required autocomplete="current-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-info">
-                                    {{ __('Login') }}
+                            <div class="col-md">
+                                <button type="submit" class="btn btn-info col-md-12">
+                                    {{ __('Sign Up') }}
                                 </button>
                             </div>
                         </div>

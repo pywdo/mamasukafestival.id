@@ -1,12 +1,8 @@
 @extends('layouts.app', ['class' => 'bg-default'])
-
 @section('content')
-<div class="header py-2 py-lg-2">
-  <div class="container">
 
-    @if(!empty($event) and !$isSearch)
-    <div class="row mt-2">
-      <div class="col-lg-12 center">
+
+ @if(!empty($event) and !$isSearch)
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
           <ol class="carousel-indicators">
             @foreach($event as $i => $e)
@@ -17,11 +13,11 @@
             @foreach($event as $i => $e)
 
             <a href="{{ route('home.event.detail', $e->id) }}" class="carousel-item @if($i == 0) active @endif">
-              <img class="d-block w-100 rounded" src="{{ asset('images') }}/{{ $e->thumbnail }}" height="450" style="object-fit: cover;">
-              <div class="carousel-caption d-none d-md-block">
-                <h2 class="text-white">{{$e->name}}</h2>
-                <p>{{Str::limit($e->content, 100, $end='.......')}}</p>
-              </div>
+              <img class="d-block w-100" src="{{ asset('images') }}/{{ $e->thumbnail }}" height="450" style="object-fit: cover;">
+              {{-- <div class="carousel-caption d-none d-md-block"> --}}
+                {{-- <h2 class="text-white">{{$e->name}}</h2> --}}
+                {{--  <p>{{Str::limit($e->content, 100, $end='.')}}</p>  --}}
+              {{-- </div> --}}
             </a>
 
             @endforeach
@@ -35,12 +31,17 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
-      </div>
-    </div>
+      
     @endif
 
-    <div class="row mt-5">
 
+
+<div class="header py-2 py-lg-2">
+  <div class="container">   
+
+
+
+    <div class="row mt-5">
       @if(!empty($category))
       <div class="col-md-3">
         <div class="row">
@@ -52,11 +53,13 @@
               <div class="card-body">
                 <ul class="nav flex-column">
                   <li class="nav-item">
-                    <a class="nav-link active text-sm" href="{{ url('/') }}">Semua</a>
+                    <a class="nav-link active text-sm" href="{{ url('/') }}"><b>Semua</b></a>
                   </li>
                   @foreach($category as $i => $c)
                   <li class="nav-item">
-                    <a class="nav-link active text-sm" href="{{ route('home.category.detail', $c->id) }}">{{$c->name}}</a>
+                 <a class="nav-link active text-sm" href="{{ route('home.category.detail', $c->id) }}">
+                  <img class="text-sm" src="{{ asset('images') }}/{{$c->thumbnail}}" width="8%"> 
+                <b> {{$c->name}}</b></a>
                   </li>
                   @endforeach
                 </ul>
@@ -81,7 +84,7 @@
               <div class="card-body">
                 <h4 class="card-title">{{$value->name}}</h4>
                 <h3><strong> Rp. {{ number_format($value->price, 2) }}</strong></h3>
-                <p class="card-text">{{Str::limit($value->description, 100, $end='.......')}}</p>
+                <p class="card-text">{{Str::limit($value->description, 100, $end='...')}}</p>
                 <a href="{{ route('home.courses.detail', $value->id) }}" class="btn btn-info">Lihat Detail</a>
               </div>
             </div>
