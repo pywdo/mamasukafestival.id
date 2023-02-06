@@ -18,7 +18,9 @@ class CreateTableCourses extends Migration
             $table->string('name')->unique();
             $table->string('thumbnail');
             $table->integer('price');
+            $table->string('preview');
             $table->uuid('category_id');
+            $table->uuid('user_id');
             $table->timestamps();
         });
     }

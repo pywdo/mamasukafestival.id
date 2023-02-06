@@ -18,6 +18,7 @@ class CreateUsersSeeder extends Seeder
             [
                 'name' => 'Super Admin',
                 'email' => 'admin@gmail.com',
+                'wanumber' => '089504413854',
                 'is_admin' => '1',
                 'password' => bcrypt('password'),
             ],

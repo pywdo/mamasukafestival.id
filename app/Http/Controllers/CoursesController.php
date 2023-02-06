@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\User;
 use App\Models\Courses;
 use App\Models\CoursesSegment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use File;
 
 class CoursesController extends Controller
 {
@@ -16,25 +18,34 @@ class CoursesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $keyword =$request->keyword;
         $data = Courses::join('category', 'courses.category_id', '=', 'category.id')
             // ->leftJoin('transaction', 'courses.id', '=', 'transaction.courses_id')
             ->leftJoin('transaction', function ($join) {
                 $join->on('courses.id', '=', 'transaction.courses_id');
                 $join->on('transaction.status', '=', DB::raw("1"));
             })
+            ->where('courses.name','LIKE','%'.$keyword.'%')
+            ->orWhere('courses.description','LIKE','%'.$keyword.'%')
+            ->orWhere( 'category.name', 'LIKE','%'.$keyword.'%')
+            ->orWhere( 'courses.price', 'LIKE','%'.$keyword.'%')
             ->groupBy('courses.id')
-            ->orderBy('total_user', 'desc')
-            ->get([
+            // ->orderBy('total_user', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10,[
                 'courses.*',
                 'category.name as category_name',
                 DB::raw("count(transaction.id) as total_user")
             ]);
-
+          
+        
         $pageName = 'Kursus';
 
-        return view('admin.courses.index', compact('data', 'pageName'));
+        return view('admin.courses.index', compact(
+            'data','pageName'));
     }
 
     /**
@@ -45,9 +56,9 @@ class CoursesController extends Controller
     public function create()
     {
         $pageName = 'Kursus';
-
+        $user = User::where('is_admin',2)->get()->all();
         $category = Category::all();
-        return view('admin.courses.create', compact('category', 'pageName'));
+        return view('admin.courses.create', compact('user','category', 'pageName'));
     }
 
     /**
@@ -60,10 +71,12 @@ class CoursesController extends Controller
     {
         $request->validate([
             'category' => 'required|not_in:"Pilih Kategori"',
+            'user' => 'required|not_in:"Pilih Pemateri"',
             'name' => 'required|unique:courses',
             'price' => 'required',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
+            'preview' => 'required',
             'segment.*.title' => 'required',
             'segment.*.embed' => 'required',
         ], config('global.validator'));
@@ -74,10 +87,12 @@ class CoursesController extends Controller
 
         $courses = Courses::create([
             'category_id' => $request->category,
+            'user_id' => $request->user,
             'name' => $request->name,
             'price' => $request->price,
             'thumbnail' => $imageName,
             'description' => $request->description,
+            'preview' => $request->preview,
         ]);
 
         $segment = [];
@@ -120,10 +135,11 @@ class CoursesController extends Controller
     {
         $segments = CoursesSegment::where('courses_id', $course->id)->orderBy('ordering', 'asc')->get();
         $category = Category::all();
-
+        $user = User::where('is_admin',2)->get()->all();
+     
         $pageName = 'Kursus';
 
-        return view('admin.courses.edit', compact('course', 'segments', 'pageName', 'category'));
+        return view('admin.courses.edit', compact('user','course', 'segments', 'pageName', 'category'));
     }
 
     /**
@@ -135,28 +151,41 @@ class CoursesController extends Controller
      */
     public function update(Request $request, Courses $course)
     {
-        $request->validate([
+        $rules=[
             'category' => 'required|not_in:"Pilih Kategori"',
+            'user' => 'required|not_in:"Pilih Pemateri"',
+           
             'name' => 'required',
             'price' => 'required',
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'thumbnail' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
+            'preview' => 'required',
             'segment.*.title' => 'required',
             'segment.*.embed' => 'required',
-        ], config('global.validator'));
+        ];
+
+        $validateData = $request->validate($rules); //validasi
 
 
 
-        $imageName = time() . '.' . $request->thumbnail->extension();
+        if ($request->file('thumbnail')) {
 
-        $request->thumbnail->move(public_path('images'), $imageName);
+            if ($course->thumbnail) {
 
-        $course->update([
+                File::delete('images/'.$course->thumbnail);
+            }
+            $imageName = time() . '.' . $request->thumbnail->extension();
+        $request->thumbnail->move('images',$imageName);
+       $validateData['thumbnail']=$imageName;
+        }
+        $course->update($validateData,[
             'category_id' => $request->category,
+            'user_id' => $request->user,
             'name' => $request->name,
             'price' => $request->price,
-            'thumbnail' => $imageName,
+           
             'description' => $request->description,
+            'preview' => $request->preview,
         ]);
 
         $segment = [];
@@ -175,7 +204,7 @@ class CoursesController extends Controller
         CoursesSegment::insert($segment);
 
         return redirect()->route('admin.courses')
-            ->with('success', 'Berhasil menambah kursus.');
+            ->with('success', 'Berhasil mengedit kursus.');
     }
 
     /**
@@ -186,6 +215,10 @@ class CoursesController extends Controller
      */
     public function destroy(Courses $course)
     {
+        if ($course->thumbnail) {
+
+            File::delete(public_path().'/images/'.$course->thumbnail);
+        }
         CoursesSegment::where('courses_id', $course->id)->delete();
 
         $course->delete();

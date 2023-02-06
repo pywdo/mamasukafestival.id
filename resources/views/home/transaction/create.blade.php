@@ -14,7 +14,6 @@
           </div>
         </div>
         <div class="card-body">
-
           <form method="POST" action="{{ route('home.transaction.store') }}" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="row mb-3">
@@ -55,7 +54,7 @@
               <label for="name" class="col-md-4 col-form-label text-md-end">Harga Kursus</label>
 
               <div class="col-md-6">
-                <input type="text" class="form-control" value="Rp. {{ number_format($data->price, 2) }}" readonly>
+                <input type="text" class="form-control " value="Rp. {{ number_format($data->price, 2) }}" readonly>
               </div>
             </div>
 
@@ -75,7 +74,7 @@
 
             <div class="row mb-0">
               <div class="col-md-6 offset-md-4">
-                <button type="submit" class="btn btn-info">
+                <button type="submit" class="btn btn-kursus col-3">
                   Simpan
                 </button>
               </div>
@@ -87,4 +86,5 @@
     </div>
   </div>
 </div>
+<br>
 @endsection

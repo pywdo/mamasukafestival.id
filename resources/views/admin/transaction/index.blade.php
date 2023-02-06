@@ -1,5 +1,4 @@
 @extends('layouts.appadmin')
-
 @section('content')
 <div class="container mt-5">
   @if(session('success'))
@@ -22,8 +21,14 @@
           </div>
         </div>
         <div class="card-body">
-
-          <div class="table-responsive">
+        <a href="transaction/cetak">
+        <button class="btn btn-icon btn-primary" type="button">
+  	<span class="btn-inner--icon"><i class="ni ni-single-copy-04"></i></span>
+    <span class="btn-inner--text">Print</span>
+    </button>
+    </a>
+    <br>
+          <div class="table-responsive mt-2">
             <table class="table align-items-center">
               <thead class="thead-light">
                 <tr>
@@ -64,7 +69,6 @@
               </tbody>
             </table>
           </div>
-
         </div>
       </div>
     </div>

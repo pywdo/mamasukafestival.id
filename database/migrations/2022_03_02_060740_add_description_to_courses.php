@@ -15,6 +15,7 @@ class AddDescriptionToCourses extends Migration
     {
         Schema::table('courses', function (Blueprint $table) {
             $table->longText('description');
+         
         });
     }
 

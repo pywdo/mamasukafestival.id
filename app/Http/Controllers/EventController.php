@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use File;
 
 class EventController extends Controller
 {
@@ -46,7 +47,7 @@ class EventController extends Controller
 
         $imageName = time() . '.' . $request->thumbnail->extension();
 
-        $request->thumbnail->move(public_path('images'), $imageName);
+        $request->thumbnail->move('images', $imageName);
         // $request->thumbnail->storeAs('images', $imageName);
 
         Event::create([
@@ -91,21 +92,37 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        $request->validate([
+        $rules=[
+
             'name' => 'required|unique:event,name,' . $event->id,
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'thumbnail' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'content' => 'required',
-        ], config('global.validator'));
+        ];
 
-        $imageName = time() . '.' . $request->thumbnail->extension();
+        $validateData = $request->validate($rules); //validasi
+		
+		
+		
+        if ($request->file('thumbnail')) {
 
-        $request->thumbnail->move(public_path('images'), $imageName);
+           
+		 if ($event->thumbnail) {
 
-        $event->update([
+            File::delete('images/'.$event->thumbnail);
+        }	
+			 $imageName = time() . '.' . $request->thumbnail->extension();
+             $request->thumbnail->move('images',$imageName);
+			$validateData['thumbnail']=$imageName;
+        }
+   
+
+  
+            
+        $event->update($validateData,[
             'name' => $request->name,
-            'thumbnail' => $imageName,
+			
             'content' => $request->content,
-        ]);
+			 ]);
 
         return redirect()->route('admin.event')
             ->with('success', 'Event berhasil diedit.');
@@ -119,6 +136,16 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        if ($event->thumbnail) {
+
+            File::delete('images/'.$event->thumbnail);
+        }
+        Event::where('id', $event->id)->delete();
+
+        $event->delete();
+
+        return redirect()->route('admin.event')
+            ->with('success', 'Kursus berhasil dihapus.');
+    
     }
 }

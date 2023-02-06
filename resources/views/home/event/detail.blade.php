@@ -11,7 +11,7 @@
           <div class="row align-items-center">
             <div class="col">
               <h2 class="text-uppercase">{{ $data->name }}</h2>
-              <h6>{{$data->created_at->format('j F, Y h:i')}}</h6>
+              {{--  <h6>{{$data->created_at->format('j F, Y h:i')}}</h6>  --}}
             </div>
           </div>
         </div>

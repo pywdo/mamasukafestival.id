@@ -8,7 +8,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                <b>Sign In to Quantum Academy</b>
+                <b>Sign In to Mamasuka Festival</b>
                 </div>
 
                 <div class="card-body">
@@ -59,7 +59,7 @@
 
                         <div class="row mb-3">
                             <div class="col-md">
-                                <button type="submit" class="btn btn-info col-md-12">
+                                <button type="submit" class="btn btn-danger col-md-12">
                                     {{ __('Sign Up') }}
                                 </button>
                             </div>

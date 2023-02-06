@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use File;
 
 class CategoryController extends Controller
 {
@@ -15,9 +17,7 @@ class CategoryController extends Controller
     public function index()
     {
         $data = Category::all();
-
-        $pageName = 'Kategori';
-
+        $pageName = 'Store';
         return view('admin.category.index', compact('data', 'pageName'));
     }
 
@@ -28,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $pageName = 'Kategori';
+        $pageName = 'Store';
         return view('admin.category.create', compact('pageName'));
     }
 
@@ -56,7 +56,7 @@ class CategoryController extends Controller
         ]);
 
         return redirect()->route('admin.category')
-            ->with('success', 'Berhasil menambah kategori.');
+            ->with('success', 'Berhasil Menambah Data.');
     }
 
     /**
@@ -78,7 +78,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $pageName = 'Kategori';
+        $pageName = 'Store';
         return view('admin.category.edit', compact('category', 'pageName'));
     }
 
@@ -91,22 +91,32 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $request->validate([
+        $rules=[
             'name' => 'required|unique:category,name,' . $category->id,
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ], config('global.validator'));
+            'thumbnail' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ];
 
-        $imageName = time() . '.' . $request->thumbnail->extension();
+        $validateData = $request->validate($rules); //validasi
 
-        $request->thumbnail->move(public_path('images'), $imageName);
 
-        $category->update([
+
+        if ($request->file('thumbnail')) {
+
+            if ($category->thumbnail) {
+
+                File::delete('images/'.$category->thumbnail);
+            }
+            $imageName = time() . '.' . $request->thumbnail->extension();
+        $request->thumbnail->move('images',$imageName);
+       $validateData['thumbnail']=$imageName;
+        }
+        $category->update( $validateData,[
             'name' => $request->name,
-            'thumbnail' => $imageName,
+            
         ]);
 
         return redirect()->route('admin.category')
-            ->with('success', 'Kategori berhasil diedit.');
+            ->with('success', 'Data Store berhasil diedit.');
     }
 
     /**
@@ -117,10 +127,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        // dd($category);
-        $category->delete();
-
-        return redirect()->route('admin.category')
-            ->with('success', 'Kategori berhasil dihapus.');
+       
+        if ($category->thumbnail) {
+            File::delete(public_path().'/images/'.$category->thumbnail);
+        }
+            Category::destroy($category->id);
+            return redirect()->route('admin.category')
+            ->with('success', 'Data berhasil dihapus.');
     }
 }

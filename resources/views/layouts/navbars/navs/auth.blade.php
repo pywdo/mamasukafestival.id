@@ -1,5 +1,5 @@
 <!-- Top navbar -->
-<nav class="navbar navbar-expand-md navbar-light bg-info shadow-sm" id="navbar-main">
+<nav class="navbar navbar-expand-md navbar-light bg-danger shadow-sm" id="navbar-main">
     <div class="container-fluid">
         <!-- Brand -->
         <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#">{{ $pageName ?? __('Dashboard') }}</a>
@@ -13,13 +13,23 @@
                         </div>
                     </div>
                 </a>
-                <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+                    <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
                     <div class=" dropdown-header noti-title">
                         <h6 class="text-overflow m-0">{{ __('Welcome!') }}</h6>
                     </div>
                     <a href="{{ route('/') }}" class="dropdown-item">
-                        <i class="ni ni-single-02"></i>
-                        <span>{{ __('My profile') }}</span>
+                        <i class="ni ni-air-baloon"></i>
+                        <span>{{ __('Beranda') }}</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                        <i class="ni ni-settings-gear-65"></i>
+                        <span>{{ __('Edit profile') }}</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ route('password.edit') }}" class="dropdown-item">
+                        <i class="ni ni-settings-gear-65"></i>
+                        <span>{{ __('Ubah Password') }}</span>
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();

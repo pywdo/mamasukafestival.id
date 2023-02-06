@@ -28,15 +28,21 @@
             </div>
           </div>
         </div>
-        <div class="card-body">
 
+        
+        <div class="card-body">
+        <form method="GET" action="{{ url('/admin/courses') }}">
+        <input type="text" name="keyword" />
+        <button type="submit">search</button>
+        </form>
+        <br>
           <div class="table-responsive">
             <table class="table align-items-center">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col" class="text-center" style="width: 50px;">#</th>
-                  <th scope="col" class="text-center" style="width: 100px;">#</th>
-                  <th scope="col" class="text-center">Kategori</th>
+                  <th scope="col" class="text-center"">No</th>
+                  <th scope="col" class="text-center">Action</th>
+                  <th scope="" class="text-cleft">Kategori</th>
                   <th scope="col" class="text-center">Nama</th>
                   <th scope="col" class="text-center">Thumbnail</th>
                   <th scope="col" class="text-center">Harga</th>
@@ -64,7 +70,7 @@
                     </a>
                   </td>
                   <td class="text-center">{{ $value->price }}</td>
-                  <td>{{Str::limit($value->description, 20, $end='.......')}}</td>
+                  <td>{{Str::limit($value->description, 20, $end='...')}}</td>
                   <td class="text-center">{{ $value->total_user }}</td>
                 </tr>
                 @endforeach
@@ -72,6 +78,9 @@
             </table>
           </div>
 
+ <div class="d-flex justify-content-center">
+ {{ $data->links() }}
+  </div> 
         </div>
       </div>
     </div>

@@ -35,6 +35,8 @@
                 @enderror
               </div>
 
+           
+            
               <div class="col-md-6">
                 <label class="form-control-label" for="name">Nama Kursus</label>
                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required placeholder="Nama Kursus">
@@ -71,6 +73,26 @@
               </div>
             </div>
 
+                <div class="row mt-3">
+              <div class="col-md-12">
+                <label class="form-control-label" for="user">Pemateri</label>
+                <select class="form-control @error('user') is-invalid @enderror" name="user" id="user">
+                  <option selected>Pilih Pemateri</option>
+                  @foreach ($user as $key => $value)
+
+                  <option value="{{ $value->id }}" @if($value->id == old('user')) selected @endif>{{ $value->name }}</option>
+                  @endforeach
+                </select>
+
+                @error('user')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+              </div>
+
+
             <div class="row mt-3">
               <div class="col-md-12">
                 <label class="form-control-label" for="description">Deskripsi</label>
@@ -83,6 +105,28 @@
                 @enderror
               </div>
             </div>
+
+
+             <div class="row mt-3">
+              <div class="col-md-12">
+                <label class="form-control-label" for="preview">Preview</label>
+              
+                <textarea class="form-control @error('preview') is-invalid @enderror" name="preview" id="preview" rows="3" placeholder="Deskripsi">{{ old('preview') }}</textarea>
+ 
+
+                @error('preview')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+               </div>
+            </div>
+
+
+
+
+
+
 
             <hr class="my-4">
 
@@ -176,7 +220,13 @@
 </div>
 @endsection
 
+
+
+
+
 @push('js')
+
+
 <script type="text/javascript">
   var i = `@if(old('segment')) {{count(old('segment'))-1}} @else 0 @endif`;
 

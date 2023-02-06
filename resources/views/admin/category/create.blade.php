@@ -19,10 +19,10 @@
             @csrf
 
             <div class="row mb-3">
-              <label for="name" class="col-md-4 col-form-label text-md-end">Nama Kategori</label>
+              <label for="name" class="col-md-4 col-form-label text-md-end">Nama Store</label>
 
               <div class="col-md-6">
-                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Nama Kategori">
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Nama Store">
 
                 @error('name')
                 <span class="invalid-feedback" role="alert">

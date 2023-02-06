@@ -72,6 +72,27 @@
               </div>
             </div>
 
+
+
+
+<div class="row">
+              <div class="col-md">
+                <label class="form-control-label" for="user">Pemateri</label>
+                <select class="form-control @error('user') is-invalid @enderror" name="user" id="user">
+                  <option selected>Pilih Pemateri</option>
+                  @foreach ($user as $key => $value)
+                  <option value="{{ $value->id }}" @if($value->id == old('user') or $value->id == $course->user_id) selected @endif>{{ $value->name }}</option>
+                  @endforeach
+                </select>
+
+                @error('user')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+
+</div>
             <div class="row mt-3">
               <div class="col-md-12">
                 <label class="form-control-label" for="description">Deskripsi</label>
@@ -85,6 +106,19 @@
               </div>
             </div>
 
+
+              <div class="row mt-3">
+              <div class="col-md-12">
+                <label class="form-control-label" for="preview">Preview</label>
+                <textarea class="form-control @error('preview') is-invalid @enderror" name="preview" id="preview" rows="3" placeholder="Deskripsi">{{ old('preview') ?? $course->preview }}</textarea>
+
+                @error('preview')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
             <hr class="my-4">
 
             <div id="course-segment" class=" mt-3">

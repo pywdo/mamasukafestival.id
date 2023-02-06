@@ -775,7 +775,7 @@ pre code {
 .col-xl-12,
 .col-xl,
 .col-xl-auto {
-    position: relative;
+    position: static;
 
     width: 100%;
     min-height: 1px;
@@ -4893,21 +4893,31 @@ input[type="button"].btn-block {
 
 .card-body {
     padding: 1.5rem;
-
+    
+    flex: 1 1 auto;
+}
+.card-bodyleft {
+    padding: 1.5rem;
+    background-color: #162295;
     flex: 1 1 auto;
 }
 
+
 .card-title {
     margin-bottom: 1.25rem;
+    color:fff;
 }
 
 .card-subtitle {
     margin-top: -0.625rem;
     margin-bottom: 0;
+    color:fff;
 }
 
 .card-text:last-child {
     margin-bottom: 0;
+    color:fff;
+}
 }
 
 .card-link:hover {
@@ -4924,7 +4934,7 @@ input[type="button"].btn-block {
 
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     font-family: Helvetica, Sans-Serif;
-    color: #3d9dbc;
+    color: #162295;
     font-size: 16pt;
 }
 .card-header:first-child {
@@ -18290,7 +18300,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 /********* Footer CSS **********/
 /*******************************/
 .footerkolom {
-    position: relative;
+    position: static;
     float: left;
     width: 20%;
     padding: 5px;
@@ -18299,15 +18309,15 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 /* Clear floats after the columns */
 .footerkolomrow:after {
-    position: relative;
+    position: static;
     content: "";
     display: table;
     clear: both;
 }
 .footer {
-    position: relative;
+    position: static;
     margin-top: 0px;
-    background: #3d9dbc;
+    background: #b00606;/*635c86 */
 }
 
 .footer .container-fluid {
@@ -18315,27 +18325,26 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .footer .footer-info {
-    position: relative;
+    position: static;
     width: 100%;
     text-align: left;
 }
 
 .footer .footer-info h2 {
-    margin-bottom: 2px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     color: #ffffff;
 }
 
 .footer .footer-info h3 {
-    margin-bottom: 20px;
-    font-size: 24px;
+    margin-bottom: 10px;
+    font-size: 21px;
     font-weight: 600;
     color: #ffffff;
 }
 .footer .footer-info h4 {
     margin-bottom: 5px;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 350;
     color: #ffffff;
 }
@@ -18361,11 +18370,11 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .footer .footer-social {
-    position: relative;
+    position: static;
 }
 .footer .footer-social h3 {
-    margin-bottom: 20px;
-    font-size: 24px;
+    margin-bottom: 10px;
+    font-size: 21px;
     font-weight: 600;
     color: #ffffff;
 }
@@ -18379,17 +18388,36 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     color: #ffffff;
     transition: 0.3s;
 }
+.footer .footer-social p {
+    display: inline-block;
+}
 
+.footer .footer-social p  {
+    margin-right: 12px;
+    font-size: 14px;
+    color: #ffffff;
+    transition: 0.3s;
+}
+.footer .footer-social i {
+    display: inline-block;
+}
+
+.footer .footer-social i {
+    margin-right: 15px;
+    font-size: 20px;
+    color: #ffffff;
+    transition: 0.3s;
+}
 .footer .footer-social a:last-child i {
     margin: 0;
 }
 
 .footer .footer-social a:hover i {
-    color: #414141;
+    color: #ff00de;
 }
 
 .footer .copyright {
-    position: relative;
+    position: static;
     text-align: left;
     margin-top: 10px;
     padding-top: 25px;
@@ -18414,21 +18442,198 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     color: #414141;
 }
 
-@media (max-width: 575.98px) {
-    .footer .footer-info h2 {
-        margin-bottom: 20px;
-        font-size: 20px;
-        font-weight: 600;
-    }
 
-    .footer .footer-info h3 {
-        margin-bottom: 20px;
-        font-size: 16px;
-    }
 
-    .footer .footer-menu p {
-        font-size: 16px;
-        line-height: 16px;
-        padding: 0 5px;
-    }
+
+
+
+/*******************************/
+/******** Portfolio CSS ********/
+/*******************************/
+.portfolio {
+    position: relative;
+    padding: 45px 0 15px 0;
+    display: grid;
+    
 }
+
+.portfolio #portfolio-filter {
+    padding: 0;
+    margin: -15px 0 25px 0;
+    list-style: none;
+    font-size: 0;
+    color: #fff;
+    text-align: center;
+}
+
+.portfolio #portfolio-filter li {
+    cursor: pointer;
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffff;
+    background: #049afd;
+    border: 2px solid transparent;
+    border-radius: 0;
+    box-shadow: inset 0 0 0 50px #049afd;
+    transition: ease-out 0.3s;
+    -webkit-transition: ease-out 0.3s;
+    -moz-transition: ease-out 0.3s;
+}
+
+.portfolio #portfolio-filter li:hover,
+.portfolio #portfolio-filter li.filter-active {
+    color: #049afd;
+    background: transparent;
+    box-shadow: inset 0 0 0 0 #049afd;
+    border-color: #049afd;
+}
+
+.portfolio .portfolio-item {
+    position: relative;
+    color: #111;
+}
+
+.portfolio .portfolio-wrap {
+    position: relative;
+    width: 100%;
+    
+}
+
+.portfolio .portfolio-img {
+    position: relative;
+    overflow: hidden;
+}
+
+.portfolio .portfolio-img img {
+    position: relative;
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover;
+    transform: scale(1.1);
+    transition: .5s;
+}
+
+.portfolio .portfolio-item:hover img {
+    margin-left: 15px;
+}
+
+.portfolio .portfolio-text {
+    position: relative;
+    height: 60px;
+    width: calc(100% - 30px);
+    margin: -30px 15px 30px 15px;
+    display: flex;
+    align-items: center;
+    color: #111;
+    background: #111;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .12);
+}
+
+.portfolio .portfolio-text h3 {
+    width: calc(100% - 70px);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 0 15px;
+    color: #111;    
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.portfolio .portfolio-text a.btn {
+    width: 50px;
+    height: 50px;
+    padding: 0 0 2px 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #111315;
+    font-size: 45px;
+    font-weight: 100;
+}
+
+.portfolio .portfolio-item:hover a.btn {
+    color: #111;
+    background: transparent;
+    box-shadow: inset 0 0 0 0 #111;
+    border-color: #111;
+}
+
+.btn-kursus {
+    color: #fff;
+    width: 100%;
+    border-color: #ff00de;
+    background-color: #ff00de;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.btn-kursus:hover {
+    color: #fff;
+    border-color: #ff00de;
+    background-color: #ff00de;
+}
+.btn-kursus:focus,
+.btn-kursus.focus {
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08),
+        0 0 0 0 rgba(17, 205, 239, 0.5);
+}
+.btn-kursus.disabled,
+.btn-kursus:disabled {
+    color: #fff;
+    border-color: #ff00de;
+    background-color: #ff00de;
+}
+
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .overlay:target {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .popup {
+    margin: 100px auto;
+    padding: 0px;
+    background: #fff;
+    border-radius: 5px;
+    width: 60%;
+    position: relative;
+    transition: all 5s ease-in-out;
+  }
+  
+  .popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+  }
+  .popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 40px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+  }
+  .popup .close:hover {
+    color: #ff00de;
+  }
+  .popup .content {
+    max-height: 70%;
+    overflow: auto;
+  }
+
+  
